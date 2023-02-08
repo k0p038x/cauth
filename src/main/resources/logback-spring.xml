@@ -1,0 +1,33 @@
+<configuration>
+  <appender class="ch.qos.logback.core.ConsoleAppender" name="STDPERF">
+    <encoder>
+      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%5level] [%thread] %logger{10} [%file:%line] service=cauth source=perf %replace(tid=%X{tid} appId=%X{appId} api=%X{api} method=%X{method} userId=%X{userId} httpStatus=%X{httpStatus} status=%X{status}){'[a-zA-Z0-9]+=( |$)',''} %msg %ex%n</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%5level] [%thread] %logger{10} [%file:%line] service=cauth source=platform %replace(tid=%X{tid} flowId=%X{flowId} appId=%X{appId} api=%X{api} forwardingIP=%X{forwardingIp} userId=%X{userId}){'[a-zA-Z0-9]+=( |$)',''} %msg%n</pattern>
+    </encoder>
+  </appender>
+
+    <logger name="org.springframework.aop.interceptor.PerformanceMonitorInterceptor" level="info" additivity="false">
+        <appender-ref ref="STDPERF"/>
+    </logger>
+
+    <logger additivity="false" level="info" name="org.springframework">
+        <appender-ref ref="STDOUT"/>
+    </logger>
+    <springProfile name="prod">
+        <logger name="com.wtf" level="debug" additivity="false">
+            <appender-ref ref="STDOUT"/>
+        </logger>
+    </springProfile>
+
+    <springProfile name="test,e2e,mock,default">
+        <logger name="com.wtf" level="debug" additivity="false">
+            <appender-ref ref="STDOUT"/>
+        </logger>
+    </springProfile>
+
+</configuration>

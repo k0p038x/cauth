@@ -1,0 +1,13 @@
+
+jwt:
+  secret: ENC(K+39QnMWA35WKrCifegZcVDq/JSYgOZh1fqgTdfDiRb13Z8WSmLZ3Q==)
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    url: "jdbc:postgresql://ep-wandering-star-085518.us-east-2.aws.neon.tech/cauth"
+    username: server
+    password: ENC(461eoaiaRs69cC75+WmU6Z+QhjhnJpAf)

@@ -1,0 +1,397 @@
+swagger: '2.0'
+info:
+  description: Api Documentation
+  version: '1.0'
+  title: Api Documentation
+  termsOfService: urn:tos
+  contact: {}
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0
+host: localhost:8080
+basePath: /
+tags:
+  - name: app-controller
+    description: App Controller
+  - name: user-controller
+    description: User Controller
+paths:
+  /apis/v1/apps:
+    get:
+      tags:
+        - app-controller
+      summary: getApps
+      operationId: getAppsUsingGET
+      produces:
+        - '*/*'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/AppDto'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    post:
+      tags:
+        - app-controller
+      summary: onboardApp
+      operationId: onboardAppUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: req
+          description: req
+          required: true
+          schema:
+            $ref: '#/definitions/OnboardAppReqDto'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/AppSensitiveDto'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /apis/v1/apps/{appName}/users:
+    get:
+      tags:
+        - user-controller
+      summary: listUsers
+      operationId: listUsersUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: appName
+          in: path
+          description: appName
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/UserDto'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    post:
+      tags:
+        - user-controller
+      summary: addUser
+      operationId: addUserUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - name: appName
+          in: path
+          description: appName
+          required: true
+          type: string
+        - in: body
+          name: req
+          description: req
+          required: true
+          schema:
+            $ref: '#/definitions/UserAddReqDto'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/UserDto'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /apis/v1/apps/{appName}/users/login:
+    post:
+      tags:
+        - user-controller
+      summary: loginUser
+      operationId: loginUserUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - name: appName
+          in: path
+          description: appName
+          required: true
+          type: string
+        - in: body
+          name: req
+          description: req
+          required: true
+          schema:
+            $ref: '#/definitions/UserLoginReqDto'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/UserLoginResDto'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /apis/v1/apps/{appName}/users/password:
+    put:
+      tags:
+        - user-controller
+      summary: resetPassword
+      operationId: resetPasswordUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - name: appName
+          in: path
+          description: appName
+          required: true
+          type: string
+        - in: body
+          name: req
+          description: req
+          required: true
+          schema:
+            $ref: '#/definitions/UserPasswordUpdateReqDto'
+      responses:
+        '200':
+          description: OK
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /apis/v1/apps/{name}/secret:
+    put:
+      tags:
+        - app-controller
+      summary: refreshSecret
+      operationId: refreshSecretUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - name: name
+          in: path
+          description: name
+          required: true
+          type: string
+        - in: body
+          name: req
+          description: req
+          required: true
+          schema:
+            $ref: '#/definitions/RefreshAppSecretReqDto'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/AppSensitiveDto'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /apis/v1/tokens/verify:
+    post:
+      tags:
+        - user-controller
+      summary: verifyAuthToken
+      operationId: verifyAuthTokenUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: req
+          description: req
+          required: true
+          schema:
+            $ref: '#/definitions/AuthTokenReqDto'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/AuthTokenResDto'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+definitions:
+  AppDto:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      owner_email:
+        type: string
+      user_auth_token_expiry_in_mins:
+        type: integer
+        format: int64
+    title: AppDto
+  AppSensitiveDto:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      owner_email:
+        type: string
+      secret:
+        type: string
+      user_auth_token_expiry_in_mins:
+        type: integer
+        format: int64
+    title: AppSensitiveDto
+  AuthTokenReqDto:
+    type: object
+    properties:
+      auth_token:
+        type: string
+    title: AuthTokenReqDto
+  AuthTokenResDto:
+    type: object
+    properties:
+      valid:
+        type: boolean
+    title: AuthTokenResDto
+  OnboardAppReqDto:
+    type: object
+    properties:
+      name:
+        type: string
+      owner_email:
+        type: string
+      user_auth_token_expiry_in_mins:
+        type: integer
+        format: int32
+    title: OnboardAppReqDto
+  RefreshAppSecretReqDto:
+    type: object
+    properties:
+      cur_secret:
+        type: string
+      name:
+        type: string
+    title: RefreshAppSecretReqDto
+  UserAddReqDto:
+    type: object
+    properties:
+      app_name:
+        type: string
+      email:
+        type: string
+      email_verified:
+        type: boolean
+      id:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      role:
+        type: string
+    title: UserAddReqDto
+  UserDto:
+    type: object
+    properties:
+      app_name:
+        type: string
+      email:
+        type: string
+      email_verified:
+        type: boolean
+      id:
+        type: string
+      name:
+        type: string
+      password_configured:
+        type: boolean
+      role:
+        type: string
+    title: UserDto
+  UserLoginReqDto:
+    type: object
+    properties:
+      app_name:
+        type: string
+      id:
+        type: string
+      password:
+        type: string
+    title: UserLoginReqDto
+  UserLoginResDto:
+    type: object
+    properties:
+      app_name:
+        type: string
+      auth_token:
+        type: string
+      expires_on:
+        type: integer
+        format: int64
+      id:
+        type: string
+      role:
+        type: string
+    title: UserLoginResDto
+  UserPasswordUpdateReqDto:
+    type: object
+    properties:
+      app_name:
+        type: string
+      cur_password:
+        type: string
+      id:
+        type: string
+      new_password:
+        type: string
+      reset:
+        type: boolean
+    title: UserPasswordUpdateReqDto
