@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @JsonNaming(SnakeCaseStrategy.class)
 public class UserLoginReqDto {
     private String id;
+    private String email;
     private String password;
     private String appName;
 }

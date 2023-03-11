@@ -39,11 +39,16 @@ public class UserCredentialServiceImpl implements UserCredentialService {
     @Override
     public UserLoginResDto loginUser(UserLoginReqDto req) {
         AppDto app = appService.getAppDtoByName(req.getAppName());
-        User user = userService.getUser(req.getId());
+        User user;
+        if (req.getId() != null)
+            user = userService.getUserById(req.getId());
+        else if (req.getEmail() != null)
+            user = userService.getUserByEmail(req.getEmail());
+        else
+            throw new BadRequestException("id or email required");
         UserCredential activeCredential = getActiveUserCredential(user.getId());
         if (!BCryptUtil.verify(req.getPassword(), activeCredential.getPassword()))
             throw new UnAuthenticatedException(Constants.WRONG_PASSWORD);
-
         Pair<String, Long> tokenData = jwtUtil.generateAuthToken(app, user);
         String jwt = tokenData.getFirst();
         long expiresOn = tokenData.getSecond();
@@ -52,9 +57,10 @@ public class UserCredentialServiceImpl implements UserCredentialService {
 
     @Override
     public AuthTokenResDto verifyAuthToken(AuthTokenReqDto req) {
-        if (!jwtUtil.validateAuthToken(req.getAuthToken()))
+        AuthTokenResDto res = jwtUtil.validateAuthToken(req.getAuthToken());
+        if (!res.isValid())
             throw new UnAuthenticatedException(Constants.INVALID_OR_EXPIRED_TOKEN);
-        return new AuthTokenResDto(true);
+        return res;
     }
 
     @Override

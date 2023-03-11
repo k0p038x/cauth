@@ -11,5 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @JsonNaming(SnakeCaseStrategy.class)
 public class AuthTokenResDto {
+    private String userId;
+    private String role;
     private boolean valid;
 }

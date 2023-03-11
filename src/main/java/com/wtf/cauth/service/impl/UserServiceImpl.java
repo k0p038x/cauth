@@ -34,8 +34,18 @@ public class UserServiceImpl implements UserService  {
     private final UserCredentialRepository userCredentialRepository;
 
     @Override
-    public User getUser(String id) {
+    public User getUserById(String id) {
         Optional<User> user = userRepository.findById(id);
+        return getUser(user);
+    }
+
+    @Override
+    public User getUserByEmail(String email) {
+        Optional<User> user = userRepository.findByEmail(email);
+        return getUser(user);
+    }
+
+    private User getUser(Optional<User> user) {
         if (user.isEmpty())
             throw new ResourceNotFoundException(Constants.USER_NOT_FOUND);
         return user.get();
@@ -55,7 +65,7 @@ public class UserServiceImpl implements UserService  {
 
     @Override
     public UserDto addUser(UserAddReqDto req) {
-        AppDto app = appService.getAppDtoByName(req.getName());
+        AppDto app = appService.getAppDtoByName(req.getAppName());
         User user = userModelMapper.convertAddUserReqDtoToUser(req, app);
         user = userRepository.save(user);
         UserCredential userCredential = null;

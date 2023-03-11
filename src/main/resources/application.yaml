@@ -1,6 +1,6 @@
 
 jwt:
-  secret: ENC(K+39QnMWA35WKrCifegZcVDq/JSYgOZh1fqgTdfDiRb13Z8WSmLZ3Q==)
+  secret: ENC(P/K45lxFriQxZ+gd8Y5mxIUhQCvDdYVeFneqtZYFsTZjx1TrtMxC8WG4MFKNa4KlB8S5KS80ztQoHgJBqA+xL41rZ/vNtnEr33+3G8zOS6Gu+uz87HbaDcT28N+uDnKdFAIQE2wHN9I+qKM7g+sQ06I6k0rqomtQnDKxnUezx6vyFjRCjk2xrszvHz846ASlBmrsuaQu4p1FXWHtuhatRP4fNmvUTvcqb0iv3qsD9hP+GgShtePygu98fp+2ukUNGxLTem1ORO6nP0tVq8Vvga9VN5RHYA8sJyDEOQ4ufVD+NTsB0Zw1sNWeq6qHkSPFgO6bfFFTTjRQlRU5GdUv6TwN6GDGVUcZVXvTGN0bIO0=)
 
 spring:
   jpa:
@@ -11,3 +11,10 @@ spring:
     url: "jdbc:postgresql://ep-wandering-star-085518.us-east-2.aws.neon.tech/cauth"
     username: server
     password: ENC(461eoaiaRs69cC75+WmU6Z+QhjhnJpAf)
+
+  spring:
+    jackson:
+      property-naming-strategy: com.fasterxml.jackson.databind.PropertyNamingStrategy.SnakeCaseStrategy
+
+  server:
+    port: 80

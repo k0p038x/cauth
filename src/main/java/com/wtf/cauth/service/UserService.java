@@ -11,7 +11,8 @@ import com.wtf.cauth.data.model.User;
 import java.util.List;
 
 public interface UserService {
-    User getUser(String id);
+    User getUserByEmail(String email);
+    User getUserById(String id);
     List<UserDto> getUsers(String appName);
     UserDto addUser(UserAddReqDto req);
 }

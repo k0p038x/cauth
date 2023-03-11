@@ -7,6 +7,7 @@ import com.wtf.cauth.data.dto.request.user.UserPasswordUpdateReqDto;
 import com.wtf.cauth.data.dto.response.user.AuthTokenResDto;
 import com.wtf.cauth.data.dto.response.user.UserDto;
 import com.wtf.cauth.data.dto.response.user.UserLoginResDto;
+import com.wtf.cauth.data.model.User;
 import com.wtf.cauth.service.UserCredentialService;
 import com.wtf.cauth.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +36,11 @@ public class UserController {
     @GetMapping("/apps/{appName}/users")
     public List<UserDto> listUsers(@PathVariable String appName) {
         return userService.getUsers(appName);
+    }
+
+    @GetMapping("/apps/{appName}/users/{id}")
+    public User getUser(@PathVariable String appName, @PathVariable String id) {
+        return userService.getUserById(id);
     }
 
     @PostMapping("/apps/{appName}/users")
