@@ -1,11 +1,9 @@
 package com.wtf.cauth.service.impl;
 
 import com.wtf.cauth.data.dto.request.app.OnboardAppReqDto;
-import com.wtf.cauth.data.dto.request.app.RefreshAppSecretReqDto;
 import com.wtf.cauth.data.dto.response.app.AppDto;
 import com.wtf.cauth.data.dto.response.app.AppSensitiveDto;
 import com.wtf.cauth.data.model.App;
-import com.wtf.cauth.exception.BadRequestException;
 import com.wtf.cauth.exception.ResourceNotFoundException;
 import com.wtf.cauth.mapper.AppModelMapper;
 import com.wtf.cauth.repository.AppRepository;
@@ -15,7 +13,6 @@ import com.wtf.cauth.util.Constants;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -65,10 +62,8 @@ public class AppServiceImpl implements AppService  {
     }
 
     @Override
-    public AppSensitiveDto refreshSecret(RefreshAppSecretReqDto req) {
-        App app = getAppByName(req.getName());
-        if (!BCryptUtil.verify(req.getCurSecret(), app.getSecret()))
-            throw new BadRequestException(Constants.INVALID_APP_SECRET);
+    public AppSensitiveDto refreshSecret(String name) {
+        App app = getAppByName(name);
         app.setSecret(UUID.randomUUID().toString());
         AppSensitiveDto appSensitiveDto = appModelMapper.convertAppToAppSensitiveDto(app);
         hashAppSecretAndSave(app);

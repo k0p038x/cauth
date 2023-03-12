@@ -1,7 +1,6 @@
 package com.wtf.cauth.service;
 
 import com.wtf.cauth.data.dto.request.app.OnboardAppReqDto;
-import com.wtf.cauth.data.dto.request.app.RefreshAppSecretReqDto;
 import com.wtf.cauth.data.dto.response.app.AppDto;
 import com.wtf.cauth.data.dto.response.app.AppSensitiveDto;
 import com.wtf.cauth.data.model.App;
@@ -13,5 +12,5 @@ public interface AppService {
     App getAppByName(String name);
     AppSensitiveDto onboardApp(OnboardAppReqDto req);
     List<AppDto> getApps();
-    AppSensitiveDto refreshSecret(RefreshAppSecretReqDto req);
+    AppSensitiveDto refreshSecret(String name);
 }

@@ -1,5 +1,6 @@
 package com.wtf.cauth.controller;
 
+import com.wtf.cauth.context.RequireAppSecret;
 import com.wtf.cauth.data.dto.request.user.UserAddReqDto;
 import com.wtf.cauth.data.dto.request.user.AuthTokenReqDto;
 import com.wtf.cauth.data.dto.request.user.UserLoginReqDto;
@@ -34,31 +35,37 @@ public class UserController {
     private final UserCredentialService userCredentialService;
 
     @GetMapping("/apps/{appName}/users")
+    @RequireAppSecret
     public List<UserDto> listUsers(@PathVariable String appName) {
         return userService.getUsers(appName);
     }
 
     @GetMapping("/apps/{appName}/users/{id}")
+    @RequireAppSecret
     public User getUser(@PathVariable String appName, @PathVariable String id) {
         return userService.getUserById(id);
     }
 
     @PostMapping("/apps/{appName}/users")
+    @RequireAppSecret
     public UserDto addUser(@RequestBody UserAddReqDto req, @PathVariable String appName) {
         return userService.addUser(req);
     }
 
     @PostMapping("/apps/{appName}/users/login")
+    @RequireAppSecret
     public UserLoginResDto loginUser(@RequestBody UserLoginReqDto req, @PathVariable String appName) {
         return userCredentialService.loginUser(req);
     }
 
     @PostMapping("/tokens/verify")
+    @RequireAppSecret
     public AuthTokenResDto verifyAuthToken(@RequestBody AuthTokenReqDto req) {
         return userCredentialService.verifyAuthToken(req);
     }
 
     @PutMapping("/apps/{appName}/users/password")
+    @RequireAppSecret
     public void resetPassword(@RequestBody UserPasswordUpdateReqDto req, @PathVariable String appName) {
          userCredentialService.updatePassword(req);
     }

@@ -1,5 +1,7 @@
 package com.wtf.cauth.controller;
 
+import com.wtf.cauth.context.RequireAdminSecret;
+import com.wtf.cauth.context.RequireAppSecret;
 import com.wtf.cauth.data.dto.request.app.OnboardAppReqDto;
 import com.wtf.cauth.data.dto.request.app.RefreshAppSecretReqDto;
 import com.wtf.cauth.data.dto.response.app.AppDto;
@@ -28,17 +30,20 @@ public class AppController {
     private final AppService appService;
 
     @GetMapping()
+    @RequireAdminSecret
     public List<AppDto> getApps() {
         return appService.getApps();
     }
 
     @PostMapping()
+    @RequireAdminSecret
     public AppSensitiveDto onboardApp(@RequestBody OnboardAppReqDto req) {
         return appService.onboardApp(req);
     }
 
-    @PutMapping("/{name}/secret")
-    public AppSensitiveDto refreshSecret(@RequestBody RefreshAppSecretReqDto req, @PathVariable String name) {
-        return appService.refreshSecret(req);
+    @PutMapping("/{name}/secret/refresh")
+    @RequireAppSecret
+    public AppSensitiveDto refreshSecret(@PathVariable String name) {
+        return appService.refreshSecret(name);
     }
 }
