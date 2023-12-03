@@ -1,5 +1,5 @@
 admin:
-  secret: ENC(xFAyz7FxQV5myNuhfIsgGOxyKndCujcQP2n0I0g/w+Q=)
+  secret: cauthsharedsecret
 
 jwt:
   secret: ENC(P/K45lxFriQxZ+gd8Y5mxIUhQCvDdYVeFneqtZYFsTZjx1TrtMxC8WG4MFKNa4KlB8S5KS80ztQoHgJBqA+xL41rZ/vNtnEr33+3G8zOS6Gu+uz87HbaDcT28N+uDnKdFAIQE2wHN9I+qKM7g+sQ06I6k0rqomtQnDKxnUezx6vyFjRCjk2xrszvHz846ASlBmrsuaQu4p1FXWHtuhatRP4fNmvUTvcqb0iv3qsD9hP+GgShtePygu98fp+2ukUNGxLTem1ORO6nP0tVq8Vvga9VN5RHYA8sJyDEOQ4ufVD+NTsB0Zw1sNWeq6qHkSPFgO6bfFFTTjRQlRU5GdUv6TwN6GDGVUcZVXvTGN0bIO0=)
@@ -19,4 +19,4 @@ spring:
       property-naming-strategy: com.fasterxml.jackson.databind.PropertyNamingStrategy.SnakeCaseStrategy
 
   server:
-    port: 80
+    port: 9999

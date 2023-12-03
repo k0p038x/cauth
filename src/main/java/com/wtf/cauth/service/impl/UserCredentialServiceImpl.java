@@ -56,8 +56,8 @@ public class UserCredentialServiceImpl implements UserCredentialService {
     }
 
     @Override
-    public AuthTokenResDto verifyAuthToken(AuthTokenReqDto req) {
-        AuthTokenResDto res = jwtUtil.validateAuthToken(req.getAuthToken());
+    public AuthTokenResDto verifyAuthToken(String token) {
+        AuthTokenResDto res = jwtUtil.validateAuthToken(token);
         if (!res.isValid())
             throw new UnAuthenticatedException(Constants.INVALID_OR_EXPIRED_TOKEN);
         return res;

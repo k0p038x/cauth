@@ -8,6 +8,6 @@ import com.wtf.cauth.data.dto.response.user.UserLoginResDto;
 
 public interface UserCredentialService {
     UserLoginResDto loginUser(UserLoginReqDto req);
-    AuthTokenResDto verifyAuthToken(AuthTokenReqDto req);
+    AuthTokenResDto verifyAuthToken(String token);
     void updatePassword(UserPasswordUpdateReqDto req);
 }

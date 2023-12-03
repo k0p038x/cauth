@@ -3,7 +3,6 @@ package com.wtf.cauth.controller;
 import com.wtf.cauth.context.RequireAdminSecret;
 import com.wtf.cauth.context.RequireAppSecret;
 import com.wtf.cauth.data.dto.request.app.OnboardAppReqDto;
-import com.wtf.cauth.data.dto.request.app.RefreshAppSecretReqDto;
 import com.wtf.cauth.data.dto.response.app.AppDto;
 import com.wtf.cauth.data.dto.response.app.AppSensitiveDto;
 import com.wtf.cauth.service.AppService;

@@ -14,7 +14,7 @@ public class UserAddReqDto {
     private String id;
     private String name;
     private String email;
-    private boolean emailVerified;
+    private Boolean emailVerified;
     private String password;
     private String appName;
     private String role;

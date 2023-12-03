@@ -14,7 +14,7 @@ public class UserDto {
     private String id;
     private String name;
     private String email;
-    private boolean emailVerified;
+    private Boolean emailVerified;
     private boolean passwordConfigured;
     private String role;
     private String appName;
