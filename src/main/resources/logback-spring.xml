@@ -7,7 +7,7 @@
 
   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
     <encoder>
-      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%5level] [%thread] %logger{10} [%file:%line] service=cauth source=platform %replace(tid=%X{tid} flowId=%X{flowId} appId=%X{appId} api=%X{api} forwardingIP=%X{forwardingIp} userId=%X{userId}){'[a-zA-Z0-9]+=( |$)',''} %msg%n</pattern>
+      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%5level] [%thread] %logger{10} [%file:%line] service=cauth source=platform %replace(tid=%X{tid} flowId=%X{flowId} appId=%X{appId} api=%X{api} method=%X{method} forwardingIP=%X{forwardingIp} userId=%X{userId}){'[a-zA-Z0-9]+=( |$)',''} %msg%n</pattern>
     </encoder>
   </appender>
 

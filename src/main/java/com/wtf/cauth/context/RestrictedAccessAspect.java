@@ -29,9 +29,9 @@ public class RestrictedAccessAspect {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String secret = request.getHeader("admin_secret");
         if (secret == null)
-            throw new BadRequestException("missing admin_secret header");
+            throw new BadRequestException(true, "missing admin_secret header", null);
         if (!adminCredentials.getSecret().equals(secret))
-            throw new UnAuthenticatedException("invalid admin secret");
+            throw new UnAuthenticatedException(true, "invalid admin secret", null);
         return joinPoint.proceed();
     }
 
@@ -41,10 +41,10 @@ public class RestrictedAccessAspect {
         String appSecret = request.getHeader("app_secret");
         String appName = request.getHeader("app_name");
         if (appName == null || appSecret == null)
-            throw new BadRequestException("missing app_name/app_secret header");
+            throw new BadRequestException(true, "missing app_name/app_secret header", null);
         App app = appService.getAppByName(appName);
         if (!BCryptUtil.verify(appSecret, app.getSecret()))
-            throw new UnAuthenticatedException("invalid app id/secret");
+            throw new UnAuthenticatedException(true, "invalid app id/secret", null);
         return joinPoint.proceed();
     }
 }

@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class BadRequestException extends BaseException {
 
-    public BadRequestException(String errorDescription) {
-        super(ErrorConstants.BAD_REQUEST, errorDescription);
+    public BadRequestException(Boolean internal, String message, String detail) {
+        super(internal, ErrorConstants.BAD_REQUEST, message, detail);
     }
 }

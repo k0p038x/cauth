@@ -1,6 +1,5 @@
 package com.wtf.cauth.service.impl;
 
-import com.wtf.cauth.data.dto.request.user.AuthTokenReqDto;
 import com.wtf.cauth.data.dto.request.user.UserLoginReqDto;
 import com.wtf.cauth.data.dto.request.user.UserPasswordUpdateReqDto;
 import com.wtf.cauth.data.dto.response.app.AppDto;
@@ -45,10 +44,11 @@ public class UserCredentialServiceImpl implements UserCredentialService {
         else if (req.getEmail() != null)
             user = userService.getUserByEmail(req.getEmail());
         else
-            throw new BadRequestException("id or email required");
+            throw new BadRequestException(false, "missing fields: id/email", null);
         UserCredential activeCredential = getActiveUserCredential(user.getId());
         if (!BCryptUtil.verify(req.getPassword(), activeCredential.getPassword()))
-            throw new UnAuthenticatedException(Constants.WRONG_PASSWORD);
+            throw new UnAuthenticatedException(false, Constants.WRONG_PASSWORD, null);
+
         Pair<String, Long> tokenData = jwtUtil.generateAuthToken(app, user);
         String jwt = tokenData.getFirst();
         long expiresOn = tokenData.getSecond();
@@ -59,7 +59,7 @@ public class UserCredentialServiceImpl implements UserCredentialService {
     public AuthTokenResDto verifyAuthToken(String token) {
         AuthTokenResDto res = jwtUtil.validateAuthToken(token);
         if (!res.isValid())
-            throw new UnAuthenticatedException(Constants.INVALID_OR_EXPIRED_TOKEN);
+            throw new UnAuthenticatedException(false, Constants.INVALID_OR_EXPIRED_TOKEN, null);
         return res;
     }
 
@@ -75,7 +75,7 @@ public class UserCredentialServiceImpl implements UserCredentialService {
     private UserCredential getActiveUserCredential(String id) {
         List<UserCredential> userCredentials = userCredentialRepository.findUserCredentialByUserIdAndActive(id, true);
         if (userCredentials.isEmpty())
-            throw new BadRequestException(Constants.PASSWORD_NOT_SET);
+            throw new BadRequestException(false, Constants.PASSWORD_NOT_SET, null);
         return userCredentials.get(0);
     }
 

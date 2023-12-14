@@ -5,6 +5,7 @@ import com.wtf.cauth.data.dto.response.app.AppDto;
 import com.wtf.cauth.data.dto.response.user.UserDto;
 import com.wtf.cauth.data.model.User;
 import com.wtf.cauth.data.model.UserCredential;
+import com.wtf.cauth.exception.BadRequestException;
 import com.wtf.cauth.exception.ResourceNotFoundException;
 import com.wtf.cauth.mapper.UserModelMapper;
 import com.wtf.cauth.repository.UserCredentialRepository;
@@ -47,7 +48,7 @@ public class UserServiceImpl implements UserService  {
 
     private User getUser(Optional<User> user) {
         if (user.isEmpty())
-            throw new ResourceNotFoundException(Constants.USER_NOT_FOUND);
+            throw new ResourceNotFoundException(false, Constants.USER_NOT_FOUND, null);
         return user.get();
     }
 
@@ -67,6 +68,10 @@ public class UserServiceImpl implements UserService  {
     public UserDto addUser(UserAddReqDto req) {
         AppDto app = appService.getAppDtoByName(req.getAppName());
         User user = userModelMapper.convertAddUserReqDtoToUser(req, app);
+        List<User> existing = userRepository.findAllByAppIdAndEmailOrId(app.getId(), user.getEmail(), user.getId());
+        if (!existing.isEmpty()) {
+            throw new BadRequestException(false, "user with same email/id already exists", null);
+        }
         user = userRepository.save(user);
         UserCredential userCredential = null;
         if (req.getPassword() != null) {

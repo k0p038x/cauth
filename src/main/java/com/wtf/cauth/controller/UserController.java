@@ -2,7 +2,6 @@ package com.wtf.cauth.controller;
 
 import com.wtf.cauth.context.RequireAppSecret;
 import com.wtf.cauth.data.dto.request.user.UserAddReqDto;
-import com.wtf.cauth.data.dto.request.user.AuthTokenReqDto;
 import com.wtf.cauth.data.dto.request.user.UserLoginReqDto;
 import com.wtf.cauth.data.dto.request.user.UserPasswordUpdateReqDto;
 import com.wtf.cauth.data.dto.response.user.AuthTokenResDto;
@@ -53,7 +52,7 @@ public class UserController {
         return userService.addUser(req);
     }
 
-    @PostMapping("/apps/{appName}/users/login")
+    @PostMapping("/apps/{appName}/user-login")
     @RequireAppSecret
     public UserLoginResDto loginUser(@RequestBody UserLoginReqDto req, @PathVariable String appName) {
         return userCredentialService.loginUser(req);

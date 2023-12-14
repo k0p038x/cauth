@@ -23,15 +23,15 @@ public class AppExceptionHandler {
     }
 
     private ErrMessage getErrMessage(BaseException e) {
-        log.error("sending error response. code: {}, description: {}", e.getErrorCode(), e.getErrorDescription());
-        return new ErrMessage(e.getErrorCode(), e.getErrorDescription());
+        log.error("sending error response. exception: {}", e.toString());
+        return new ErrMessage(e.getInternal(), e.getCode(), e.getMessage(), e.getDetail());
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrMessage handleRuntimeException(RuntimeException e) {
-        log.error("runtime error", e);
-        return new ErrMessage(ErrorConstants.INTERNAL_SERVER_ERROR, "oops! something went wrong");
+        log.error("unhandled exception. exception: {}", e.getCause().toString());
+        return new ErrMessage(true, "server_error", "cauth server error", e.getCause().toString());
     }
 
     @ExceptionHandler
@@ -41,7 +41,7 @@ public class AppExceptionHandler {
     }
 
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrMessage handleInvalidCredentials(UnAuthenticatedException e) {
         return getErrMessage(e);
     }

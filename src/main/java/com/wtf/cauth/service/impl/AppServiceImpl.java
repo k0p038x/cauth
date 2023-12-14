@@ -37,14 +37,14 @@ public class AppServiceImpl implements AppService  {
     public App getAppByName(String name) {
         Optional<App> app = appRepository.findByName(name);
         if (app.isEmpty())
-            throw new ResourceNotFoundException(Constants.APP_NOT_FOUND);
+            throw new ResourceNotFoundException(false, Constants.APP_NOT_FOUND, null);
         return app.get();
     }
 
     @Override
     public AppSensitiveDto onboardApp(OnboardAppReqDto req) {
         if (appRepository.findByName(req.getName()).isPresent())
-            throw new ResourceNotFoundException(Constants.APP_ALREADY_EXISTS);
+            throw new ResourceNotFoundException(false, Constants.APP_ALREADY_EXISTS, null);
         App app = appModelMapper.convertOnboardAppReqDtoToApp(req);
         AppSensitiveDto appSensitiveDto = appModelMapper.convertAppToAppSensitiveDto(app);
         hashAppSecretAndSave(app);

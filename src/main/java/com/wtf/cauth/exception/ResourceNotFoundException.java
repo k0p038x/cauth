@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class ResourceNotFoundException extends BaseException {
 
-    public ResourceNotFoundException(String errorDescription) {
-        super(ErrorConstants.NOT_FOUND, errorDescription);
+    public ResourceNotFoundException(Boolean internal, String message, String detail) {
+        super(internal, ErrorConstants.NOT_FOUND, message, detail);
     }
 }

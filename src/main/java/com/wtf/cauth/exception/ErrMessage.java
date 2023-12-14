@@ -10,6 +10,8 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class ErrMessage {
-    private String errorCode;
-    private String errorDescription;
+    private Boolean internal;
+    private String code;
+    private String message;
+    private String detail;
 }

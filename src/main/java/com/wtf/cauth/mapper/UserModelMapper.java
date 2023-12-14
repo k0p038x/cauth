@@ -5,6 +5,7 @@ import com.wtf.cauth.data.dto.response.app.AppDto;
 import com.wtf.cauth.data.dto.response.user.UserDto;
 import com.wtf.cauth.data.model.User;
 import com.wtf.cauth.data.model.UserCredential;
+import com.wtf.cauth.util.RandGeneratorUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -21,6 +22,8 @@ public class UserModelMapper {
 
     public User convertAddUserReqDtoToUser(UserAddReqDto req, AppDto appDto) {
         User user = mapper.map(req, User.class);
+        if (user.getId() == null)
+            user.setId(RandGeneratorUtil.generate());
         user.setAppId(appDto.getId());
         return user;
     }

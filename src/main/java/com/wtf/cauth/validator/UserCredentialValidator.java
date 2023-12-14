@@ -16,12 +16,12 @@ public class UserCredentialValidator {
 
     private static void passwordMatchCheck(UserPasswordUpdateReqDto req, UserCredential activeCredential) {
         if (!BCryptUtil.verify(req.getCurPassword(), activeCredential.getPassword()))
-            throw new UnAuthenticatedException(Constants.WRONG_PASSWORD);
+            throw new UnAuthenticatedException(false, Constants.WRONG_PASSWORD, null);
     }
 
     private static void emptyPasswordCheck(UserPasswordUpdateReqDto req) {
         if (req.getCurPassword() == null && !req.isReset())
-            throw new BadRequestException("password not found");
+            throw new BadRequestException(false, "password not found", null);
     }
 
 }
