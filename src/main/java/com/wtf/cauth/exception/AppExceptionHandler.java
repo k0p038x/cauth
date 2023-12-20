@@ -30,8 +30,8 @@ public class AppExceptionHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrMessage handleRuntimeException(RuntimeException e) {
-        log.error("unhandled exception. exception: {}", e.getCause().toString());
-        return new ErrMessage(true, "server_error", "cauth server error", e.getCause().toString());
+        log.error("unhandled exception. exception: {}", e);
+        return new ErrMessage(true, "server_error", "cauth server error", e.toString());
     }
 
     @ExceptionHandler
