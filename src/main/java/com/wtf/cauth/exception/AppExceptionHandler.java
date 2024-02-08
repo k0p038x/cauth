@@ -41,7 +41,7 @@ public class AppExceptionHandler {
     }
 
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ErrMessage handleInvalidCredentials(UnAuthenticatedException e) {
         return getErrMessage(e);
     }
